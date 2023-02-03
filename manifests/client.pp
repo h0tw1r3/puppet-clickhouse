@@ -25,14 +25,12 @@ class clickhouse::client (
   String $package_ensure                 = $clickhouse::params::client_package_ensure,
   Boolean $manage_package                = $clickhouse::params::client_manage_package,
   Array[String] $package_install_options = $clickhouse::params::client_package_install_options,
-) inherits clickhouse::params{
-
+) inherits clickhouse::params {
   if $manage_repo {
     include clickhouse::repo
   }
 
   anchor { 'clickhouse::client::start': }
-  -> class { 'clickhouse::client::install':}
+  -> class { 'clickhouse::client::install': }
   -> anchor { 'clickhouse::client::end': }
-
 }

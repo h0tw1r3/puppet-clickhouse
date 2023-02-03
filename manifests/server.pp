@@ -20,6 +20,8 @@
 #   Array of install options for managed package resources. Appropriate options are passed to package manager.
 # @param manage_config
 #   Whether the Clickhouse Server configurations files should be managd. Defaults to 'true'.
+# @param main_dir
+#   Directory where Clickhouse Server main files will be stored. Defaults to '/etc/clickhouse-server'.
 # @param config_dir
 #   Directory where Clickhouse Server configuration files will be stored. Defaults to '/etc/clickhouse-server/conf.d'.
 # @param users_dir
@@ -62,6 +64,8 @@
 #   Specifies whether Clickhouse Server service should be enabled. Defaults to 'true'.
 # @param manage_service
 #   Specifies whether Clickhouse Server service should be managed. Defaults to 'true'.
+# @param manage_systemd
+#   Specifies whether Clickhouse Server systemd unit should managed. Defaults to 'true'.
 # @param restart
 #   Specifies whether Clickhouse Server service should be restated when configuration changes. Defaults to 'false'.
 # @param users
@@ -76,6 +80,8 @@
 #   Replication configuration parameters (see types/clickhouse_replication.pp for data type description). See https://clickhouse.yandex/docs/en/operations/table_engines/replication/.
 # @param remote_servers
 #   Remote server configuration parameters for Distributed engine (see types/clickhouse_remote_servers.pp for data type description), which are passed to clickhouse::server::remote_servers. See https://clickhouse.yandex/docs/en/operations/table_engines/distributed/.
+# @param crash_reports
+#   Configure opt-in sending crash reports to the ClickHouse core developers team via Sentry.
 #
 class clickhouse::server (
 # Repository
@@ -98,7 +104,7 @@ class clickhouse::server (
   String $clickhouse_user                       = $clickhouse::params::clickhouse_user,
   String $clickhouse_group                      = $clickhouse::params::clickhouse_group,
   Boolean $keep_default_users                   = $clickhouse::params::keep_default_users,
-  Optional[Hash[String, Any]] $override_options = {},
+  Hash[String, Any] $override_options           = {},
   String $config_file                           = $clickhouse::params::config_file,
   String $profiles_file                         = $clickhouse::params::profiles_file,
   String $quotas_file                           = $clickhouse::params::quotas_file,
@@ -125,7 +131,6 @@ class clickhouse::server (
   Optional[Clickhouse::Clickhouse_remote_servers] $remote_servers           = undef,
   Optional[Clickhouse::Clickhouse_crash_reports] $crash_reports             = undef,
 ) inherits clickhouse::params {
-
   if $manage_repo {
     include clickhouse::repo
   }
@@ -147,5 +152,4 @@ class clickhouse::server (
   -> class { 'clickhouse::server::resources': }
   -> class { 'clickhouse::server::service': }
   -> anchor { 'clickhouse::server::end': }
-
 }
