@@ -4,3 +4,7 @@ fixtures:
     stdlib: "puppetlabs/stdlib"
     apt: 'puppetlabs-apt'
     yumrepo: 'puppetlabs-yumrepo_core'
+  repositories:
+    facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
+    puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
+    provision: 'https://github.com/puppetlabs/provision.git'

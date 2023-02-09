@@ -1,0 +1,16 @@
+---
+default:
+  provisioner: docker
+  images:
+    - litmusimage/debian:11
+  vars: "docker_run_opts: ['--tmpfs=/run', '--tmpfs=/run/lock', '-v=/sys/fs/cgroup/puppet.slice:/sys/fs/cgroup/puppet.slice:rw', '--cgroupns=host', '--cgroup-parent=puppet.slice']"
+travis_el7:
+  provisioner: docker
+  images:
+    - litmusimage/centos:7
+  vars: "docker_run_opts: ['--tmpfs=/run', '--tmpfs=/run/lock', '-v=/sys/fs/cgroup/puppet.slice:/sys/fs/cgroup/puppet.slice:rw', '--cgroupns=host', '--cgroup-parent=puppet.slice']"
+travis_el8:
+  provisioner: docker
+  images:
+    - litmusimage/centos:8
+  vars: "docker_run_opts: ['--tmpfs=/run', '--tmpfs=/run/lock', '-v=/sys/fs/cgroup/puppet.slice:/sys/fs/cgroup/puppet.slice:rw', '--cgroupns=host', '--cgroup-parent=puppet.slice']"

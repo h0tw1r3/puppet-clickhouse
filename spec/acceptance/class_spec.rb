@@ -1,18 +1,20 @@
 require 'spec_helper_acceptance'
 
 describe 'clickhouse class' do
-  shell('/opt/puppetlabs/puppet/bin/gem install xml-simple')
-  describe 'with defaults' do
+  run_shell('/opt/puppetlabs/puppet/bin/gem install xml-simple')
+  context 'with defaults' do
     let(:pp) do
       <<-MANIFEST
         class { 'clickhouse::server': }
       MANIFEST
     end
 
-    it_behaves_like 'a idempotent resource'
+    it 'behaves idempotently' do
+      idempotent_apply(pp)
+    end
   end
 
-  describe 'with all options' do
+  context 'with all options' do
     let(:pp) do
       <<-MANIFEST
         class { 'clickhouse::server':
@@ -119,6 +121,8 @@ describe 'clickhouse class' do
       MANIFEST
     end
 
-    it_behaves_like 'a idempotent resource'
+    it 'behaves idempotently' do
+      idempotent_apply(pp)
+    end
   end
 end
